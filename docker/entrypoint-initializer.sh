@@ -29,7 +29,12 @@ echo
 python3 manage.py makemigrations dojo
 python3 manage.py migrate
 
-ADMIN_EXISTS=$(echo "SELECT * from auth_user;" | python manage.py dbshell | grep admin)
+ADMIN_EXISTS=$(echo "SELECT * from auth_user;" | python manage.py dbshell | grep ${DD_ADMIN_USER})
+
+if [ "${ADMIN_EXISTS}" ]
+then
+  echo "ADMIN_EXISTS: password not set try a different user name"
+fi
 
 if [ -z "${ADMIN_EXISTS}" ]
 then
